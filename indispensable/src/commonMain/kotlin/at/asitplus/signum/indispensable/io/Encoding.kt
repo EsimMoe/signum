@@ -82,7 +82,7 @@ object ByteArrayBase64UrlSerializer: TransformingSerializerTemplate<ByteArray, S
 object X509CertificateBase64UrlSerializer: TransformingSerializerTemplate<X509Certificate, ByteArray>(
     parent = ByteArrayBase64UrlSerializer,
     encodeAs = X509Certificate::encodeToDer,
-    decodeAs = { X509Certificate.decodeFromDer(it) } // workaround iOS compilation bug KT-71498
+    decodeAs = X509Certificate::decodeFromDer
 )
 
 /** De-/serializes a public key as a Base64Url-encoded IOS encoding public key */
