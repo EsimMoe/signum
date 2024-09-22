@@ -3,33 +3,32 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/at.asitplus.signum/indispensable?label=maven-central)](https://mvnrepository.com/artifact/at.asitplus.signum.indispensable/)
 
-# Indispensable Core Data Structures and functionality for Cryptographic Material
+# Indispensable Core Data Structures and Functions for Cryptographic Material
 
 This [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) library provides platform-independent data
 types and functionality related to crypto and PKI applications:
 
 * EC Math
   * EC Point Class
-  * EC Curve Class
-  * Mathematical operations
-  * Bit Length
-  * Point Compression
+    * EC Curve Class
+    * Mathematical operations
+    * Bit Length
+    * Point Compression
 * Public Keys (RSA and EC)
 * Algorithm Identifiers (Signatures, Hashing)
 * X509 Certificate Class (create, encode, decode)
   * Extensions
-  * Alternative Names
-  * Distinguished Names
+    * Alternative Names
+    * Distinguished Names
 * Certification Request (CSR)
-  * CSR Class
-  * Attributes
+    * CSR Attributes
 * ObjectIdentifier Class with human-readable notation (e.g. 1.2.9.6245.3.72.13.4.7.6)
 * 100% pure Kotlin BitSet
 * Exposes Multibase Encoder/Decoder as an API dependency
   including [Matthew Nelson's smashing Base16, Base32, and Base64 encoders](https://github.com/05nelsonm/encoding)
 * Generic ASN.1 abstractions to operate on and create arbitrary ASN.1 Data
 * Serializability of all ASN.1 classes for debugging **AND ONLY FOR DEBUGGING!!!** *Seriously, do not try to deserialize
-    ASN.1 classes through kotlinx.serialization! Use `decodeFromDer()` and its companions!*
+  ASN.1 classes through kotlinx.serialization! Use `decodeFromDer()` and its cousins!*
 * **ASN.1 Parser and Encoder including a DSL to generate ASN.1 structures**
 
 This last bit means that

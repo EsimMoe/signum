@@ -1,8 +1,8 @@
 [data-md-color-scheme="asp"] {
     --md-primary-fg-color:        #005b79;
     --md-typeset-color:           #1F2328;
-    --md-typeset-a-color:         #07c;
-    --md-accent-fg-color:         #005b79;
+    --md-typeset-a-color: #009ed1;
+    --md-accent-fg-color: #005b79;
     --md-default-bg-color:        #fff;
     --md-code-bg-color:           #F6F8FA;
     --md-default-fg-color--light: #1F2328;
@@ -16,8 +16,8 @@
 [data-md-color-scheme="asp-dark"] {
     --md-primary-fg-color:        #005b79;
     --md-typeset-color:           #f0f6fc;
-    --md-typeset-a-color:         #07c;
-    --md-accent-fg-color:         #005b79;
+    --md-typeset-a-color: #009dcf;
+    --md-accent-fg-color: #00c1ff;
     --md-default-bg-color:        #0D1117;
     --md-default-fg-color--light: #f0f6fc;
     --md-code-fg-color:           #f0f6fc;

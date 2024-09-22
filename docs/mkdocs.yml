@@ -75,5 +75,5 @@ nav:
           - Signum Supreme: supreme.md
       - Examples:
           - index.md
-  - Feature Matrix: Foo.html
+  - Feature Matrix: features.md
   - API Docs: dokka-main.html
