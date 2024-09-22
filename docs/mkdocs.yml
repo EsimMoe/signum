@@ -47,19 +47,32 @@ extra_css:
 repo_url: https://github.com/a-sit-plus/signum
 repo_name: a-sit-plus/signum
 
-nav:
-  - Overview:
-    - index.md
-    - CHANGELOG.md
-    - Examples:
-      - index.md
-  - API Docs:
-    - Foo.html
-
 copyright: Copyright &copy; 2024 A-SIT Plus GmbH
-footerlogo: assets/logo_kurzertext.svg
 
 extra:
   social:
     - icon: fontawesome/solid/paper-plane
       link: mailto:<opensource@a-sit.at>
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+
+nav:
+  - Overview:
+      - Home: index.md
+      - CHANGELOG.md
+      - Modules:
+          - indispensable.md
+          - indispensable-josef.md
+          - indispensable-cosef.md
+          - supreme.md
+      - Examples:
+          - index.md
+  - API Docs: Foo.html

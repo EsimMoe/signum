@@ -23,6 +23,14 @@
     --md-code-fg-color:           #f0f6fc;
     --md-code-bg-color:           #1E242A;
     --md-primary-fg-color--dark:  #002A38;
+    --md-code-hl-variable-color:  #fff;
+    --md-code-hl-operator-color:  #f0f6fc;
+    --md-code-hl-string-color:    rgb(47, 177, 112);
+    --md-code-hl-keyword-color:   rgb(103, 145, 224);
+    --md-code-hl-number-color:    rgb(230, 105, 91);
+    --md-code-hl-comment-color:   rgba(226, 228, 233, 0.56);
+    --md-code-hl-punctuation-color:rgba(226, 228, 233, 0.56);
+    --md-code-hl-name-color:      rgba(213, 216, 226, 0.82);
 }
 [data-md-color-scheme="asp-dark"] img[src$="#only-light"],
 [data-md-color-scheme="asp-dark"] img[src$="#gh-light-mode-only"] {
