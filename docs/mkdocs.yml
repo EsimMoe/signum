@@ -65,14 +65,15 @@ markdown_extensions:
 
 
 nav:
-  - Overview:
-      - Home: index.md
+  - Manual:
+      - Overview: index.md
       - CHANGELOG.md
       - Modules:
-          - indispensable.md
-          - indispensable-josef.md
-          - indispensable-cosef.md
-          - supreme.md
+          - Indispensable: indispensable.md
+          - Indispensable Josef: indispensable-josef.md
+          - Indispensable Cosef: indispensable-cosef.md
+          - Signum Supreme: supreme.md
       - Examples:
           - index.md
-  - API Docs: Foo.html
+  - Feature Matrix: Foo.html
+  - API Docs: dokka-main.html

@@ -77,6 +77,8 @@ class JsonWebKeyTest : FreeSpec({
         val key = JsonWebKey(type = JwkType.RSA, n = parsedN, e = parsedE)
 
         key.jwkThumbprint shouldBe "urn:ietf:params:oauth:jwk-thumbprint:sha256:NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs"
+
+        key.toCryptoPublicKey().getOrThrow() //<- this we can pass to a Supreme verifier
     }
 
 })

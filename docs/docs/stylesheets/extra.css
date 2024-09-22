@@ -31,6 +31,7 @@
     --md-code-hl-comment-color:   rgba(226, 228, 233, 0.56);
     --md-code-hl-punctuation-color:rgba(226, 228, 233, 0.56);
     --md-code-hl-name-color:      rgba(213, 216, 226, 0.82);
+    --md-typeset-table-color:     rgba(213, 216, 226, 0.2);
 }
 [data-md-color-scheme="asp-dark"] img[src$="#only-light"],
 [data-md-color-scheme="asp-dark"] img[src$="#gh-light-mode-only"] {

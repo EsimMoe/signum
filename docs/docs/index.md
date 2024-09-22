@@ -151,7 +151,7 @@ Which produces the following output:
 
 ### ASN.1 Builder DSL
 
-While predefines structures are essential for working with cryptographic material in a PKI context,
+While predefined structures are essential for working with cryptographic material in a PKI context,
 full control is sometimes required.
 Signum directly support this with an ASN.1 builder DSL, including explicit and implicit tagging:
 

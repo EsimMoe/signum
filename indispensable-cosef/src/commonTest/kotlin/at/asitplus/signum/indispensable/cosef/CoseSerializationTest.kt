@@ -70,7 +70,7 @@ class CoseSerializationTest : FreeSpec({
                 "91aef0b0117e2af9a291aa32e14ab834dc56ed2a223444547e01f11d3b09" +
                 "16e5a4c345cacb36"
         val cose = CoseSigned.deserialize(input.uppercase().decodeToByteArray(Base16Strict))
-            .also { println(it) }
+            .also { println(it.getOrNull()) }
 
         cose.shouldNotBeNull()
     }
