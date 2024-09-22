@@ -1,0 +1,65 @@
+site_name: Signum
+site_url: https://a-sit-plus.github.io/signum/
+
+theme:
+  name: material
+  logo: assets/signum-light-large.png
+  favicon: assets/schloss.svg
+  custom_dir: overrides
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+  icon:
+    repo: fontawesome/brands/github
+
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+      font:
+        text: Roboto
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: asp
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      font:
+        text: Roboto
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: asp-dark
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+      font:
+        text: Roboto
+
+
+extra_css:
+  - stylesheets/extra.css
+
+repo_url: https://github.com/a-sit-plus/signum
+repo_name: a-sit-plus/signum
+
+nav:
+  - Overview:
+    - index.md
+    - CHANGELOG.md
+    - Examples:
+      - index.md
+  - API Docs:
+    - Foo.html
+
+copyright: Copyright &copy; 2024 A-SIT Plus GmbH
+footerlogo: assets/logo_kurzertext.svg
+
+extra:
+  social:
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:<opensource@a-sit.at>
