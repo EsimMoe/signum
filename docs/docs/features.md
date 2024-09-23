@@ -46,7 +46,7 @@ a separate platform listing is omitted.
 
 | Primitive          | Details                                                                              |
 |--------------------|--------------------------------------------------------------------------------------|
-| Signature Creation | RSA/ECDSA with SHA2-family hash functions                                            |
+| Signature Creation | RSA/ECDSA with SHA2-family hash functions + raw signatures on pre-hashed data        |
 | RSA Key Sizes      | 512 (useful for faster tests) up to 4096 (larger keys may not work on all platforms) |
 | RSA Padding        | PKCS1 and PSS (with sensible defaults)                                               |
 | Elliptic Curves    | NIST Curves (P-256, P-384, P-521)                                                    |

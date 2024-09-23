@@ -1,4 +1,4 @@
-![Signum Supreme](assets/supreme-dark.png#only-light) ![Signum Supreme](assets/supreme-light.png#only-dark)
+![Signum Supreme](assets/supreme-dark-large.png#only-light) ![Signum Supreme](assets/supreme-light-large.png#only-dark)
 
 [![Maven Central](https://img.shields.io/maven-central/v/at.asitplus.signum/supreme?label=maven-central)](https://mvnrepository.com/artifact/at.asitplus.signum/supreme)
 

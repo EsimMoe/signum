@@ -1,5 +1,5 @@
-![Indispensable](assets/core-dark.png#only-light)
-![Signum](assets/core-light.png#only-dark)
+![Indispensable](assets/core-dark-large.png#only-light)
+![Signum](assets/core-light-large.png#only-dark)
 
 [![Maven Central](https://img.shields.io/maven-central/v/at.asitplus.signum/indispensable?label=maven-central)](https://mvnrepository.com/artifact/at.asitplus.signum.indispensable/)
 
@@ -116,7 +116,49 @@ Most prominently, it comes with ASN.1 unsigned varint and minimum-length encodin
 ##  Conversion from/to platform types
 
 Obviously, a world outside this library's data structures exists.
-The following functions exist to interop with platform types:
+The following functions provide interop functionality with platform types.
+
+### JVM/Android
+
+* `SignatureAlgorithm.getJCASignatureInstance()` gets a pre-configured JCA instance for this algorithm
+* `SpecializedSignatureAlgorithm.getJCASignatureInstance()` gets a pre-configured JCA instance for this algorithm
+* `SignatureAlgorithm.getJCASignatureInstancePreHashed()` gets  a pre-configured JCA instance for pre-hashed data for this algorithm
+* `SpecializedSignatureAlgorithm.getJCASignatureInstancePreHashed()` gets  a pre-configured JCA instance for pre-hashed data for this algorithm
+
+* `Digest.jcaPSSParams` returns a sane default `PSSParameterSpec` for computing PSS signatures
+* `Digest.jcaName` returns the JCA name of the digest
+* `Digest?.jcaAlgorithmComponent` digest part of the digest part of the <Digest>with<Algorithm> JCA algorithm identifier (which differs fom the above)
+
+* `ECCurve.jcaName` returns the curve's name used by JCA
+* `ECCurve.byJcaName()` returns the curve matching the provided JCA curve name
+
+* `CryptoPublicKey.getJcaPublicKey()` returns the JCA-representation of the public key
+* `CryptoPublicKey.EC.getJcaPublicKey()` returns the JCA-representation of the public key (convenience helper)
+* `CryptoPublicKey.Rsa.getJcaPublicKey()` returns the JCA-representation of the public key (convenience helper)
+* `CryptoPublicKey.fromJcaPublicKey` creates a `CryptoPublicKey` from a JCA Public Key
+* `CryptoPublicKey.EC.fromJcaPublicKey` creates a `CryptoPublicKey.EC` from a JCA EC Public Key
+* `CryptoPublicKey.Rsa.fromJcaPublicKey` creates a `CryptoPublicKey.Rsa` from a JCA Rsa Public Key
+
+* `CryptoSignature.jcaSignatureBytes` returns the JCA-native encoded representation of a signature
+* `CryptoSignature.parseFromJca()` returns a signature object form a JCA-native encoded representation of a signature
+* `CryptoSignature.EC.parseFromJca()` returns an EC signature object form a JCA-native encoded representation of a signature
+* `CryptoSignature.RSAorHMAC.parseFromJca()` returns an RSA signature object form a JCA-native encoded representation of a signature
+* `CryptoSignature.EC.parseFromJcaP1363` parses a signature produced by the JCA digestWithECDSAinP1363Format algorithm.
+* `X509Certificate.toJcaCertificate()` converts the certificate to a JCA-native `X509Certificate`
+* `java.security.cert.X509Certificate.toKmpCertificate()` converts a JCA-native certificate to a Signum `X509Certificate`
+
+### iOS
+
+* `CryptoPublicKey.iosEncoded` encodes a public key as iOS does
+* `CryptoPublicKey.fromiosEncoded()` decodes a public key that was encoded in iOS
+
+* `SignatureAlgorithm.secKeyAlgorithm` returns an algorithm identifier constant usable with CommonCrypto
+* `SpecializedSignatureAlgorithm.secKeyAlgorithm` returns an algorithm identifier constant usable with CommonCrypto
+* `SpecializedSignatureAlgorithm.secKeyAlgorithm` returns an algorithm identifier constant usable with CommonCrypto
+* `SignatureAlgorithm.secKeyAlgorithmPreHashed` returns an algorithm identifier constant usable with CommonCrypto (for pre-hashed data)
+* `SpecializedSignatureAlgorithm.secKeyAlgorithmPreHashed` returns an algorithm identifier constant usable with CommonCrypto (for pre-hashed data)
+
+* `CryptoSignature.iosEncoded` encodes a signature object as iOS would natively do
 
 
 ## ASN.1 Engine
