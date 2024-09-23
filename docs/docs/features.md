@@ -76,6 +76,6 @@ semantics:
 | ASN.1 Integer                | Supports `Int`, `UInt`, `Long`, `ULong` and `BigInteger`.                                                                                                                            |
 | ASN.1 Time                   | Maps from/to kotlinx-datetime `Instant`. Automatic choice of `GENERALIZED` and  `UTC` time                                                                                           |
 | ASN.1 String                 | All types supported, with little to no validation, however.                                                                                                                          |
-| ASN.1 Object Identifier      | Only `1` and `2` subtrees supported.                                                                                                                                                 |
+| ASN.1 Object Identifier      | Only `1` and `2` subtrees supported. `KnownOIDs` is generated from _dumpasn1_.                                                                                                       |
 | ASN.1 Octet String           | Primitive octet strings and encapsulating complex structures natively supported for encoding and parsing.                                                                            |
 | ASN.1 Bit String             | Relies on custom `BitSet` implementation, but also supports encoding raw bytes.                                                                                                      |

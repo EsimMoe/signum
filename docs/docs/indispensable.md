@@ -78,6 +78,7 @@ The `pki` package contains data classes relevant in the PKI context:
     * `Pcs10CertificateRequestAttributes` contains a CSR attribute extension
 
 #### ASN.1
+
 The `asn1` package contains a 100% pure Kotlin (read: no platform dependencies) ASN.1 engine and data types:
 
 * `Asn1Elements.kt` contains all ANS.1 element types
@@ -88,7 +89,7 @@ The `asn1` package contains a 100% pure Kotlin (read: no platform dependencies) 
             * Tag Class
             * A set of predefined tag constants that are often encountered such as `INTEGER`, `OCTET STRING`, `BIT STRING`, etc…
       * `Asn1Primitive` is an ASN.1 element containing primitive data (string, byte strings, numbers, null, …)
-      * `Asn1Structure` is a `CONSTRUCTED` ASN.1 type, containing zero or more child elements
+      * `Asn1Structure` is a `CONSTRUCTED` ASN.1 type, containing zero or more ASN.1 child elements
         * `Asn1Sequence` has sequence semantics (order-preserving!)
         * `Asn1SequenceOf` has sequence semantics but allows only child nodes of the same tag
         * `Asn1Set` has set semantics, i.e. sorts all child nodes by tag in accordance with DER
@@ -112,18 +113,27 @@ The `asn1.encoding` package contains the ASN.1 builder DSL, as well as encoding 
 -- both for whole ASN.1 elements, as wells as for encoding/decoding primitive data types to/from DER-conforming byte arrays.
 Most prominently, it comes with ASN.1 unsigned varint and minimum-length encoding of signed numbers.
 
-## Working with Cryptographic Material
+##  Conversion from/to platform types
 
-### Conversion from/to platform types
+Obviously, a world outside this library's data structures exists.
+The following functions exist to interop with platform types:
+
 
 ## ASN.1 Engine
+
 Relevant classes like `CryptoPublicKey`, `X509Certificate`, `Pkcs10CertificationRequest`, etc. all
 implement `Asn1Encodable` and their respective companions implement `Asn1Decodable`.
-Which means that you can do things like parsing and examining certificates, creating CSRs, or transferring key
-material.
-
+This is an essential pattern, making the ASN.1 engine work the way it does.
+We have opted against using kotlinx.serialization for maximum flexibility and more convenient debugging.  
+The following section provides more details on the various patterns used for ASN.1 encoding and decoding.
 
 ### Generic Patterns
+Recalling the classes in the `asn1` package described before already hints how ASN.1 elements are constructed.
+In effect, it is just a nesting of those classes.
+This works well for parsing and encoding but lacks higher-level semantics (in contrast to `X509CErtificate`, for example).
+
+As mentioned before, 
+
 encodable/decodable
 encodetoDer
 encodeToTlv
@@ -250,3 +260,6 @@ Application 1337 (9 elem)
         NumericString 12345
         UTCTime 2024-09-16 11:53:51 UTC
 ```
+
+The builder takes any `Asn1Encodable`, so you can also add an `X509CErtificate`, or a `CryptoPublicKey` using
+the same concise syntax.
