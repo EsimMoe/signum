@@ -69,7 +69,7 @@ semantics:
 | X.509 Certificate Extension  | Almost no predefined extensions. Need to be manually created.                                                                                                                        |
 | Relative Distinguished Names | Rather barebones with little to no validation.                                                                                                                                       |
 | Alternative Names            | Only basic structural validation.                                                                                                                                                    |
-| PKCS10 CSR                   |                                                                                                                                                                                      |
+| PKCS10 CSR                   | Almost certainly a bit too lenient.                                                                                                                                                  |
 | PKCS10 CSR Attributes        | No predefined attributes. Need to be manually created.                                                                                                                               |
 | X.509 Signature Algorithm    | Only supported algorithms.                                                                                                                                                           |
 | Public Keys                  | Only supported types.                                                                                                                                                                |
