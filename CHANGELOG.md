@@ -6,6 +6,10 @@
 
 ## 3.0
 
+### 3.8.1
+
+* Add HMAC JCA names, properties, used in JSON Web Encryption
+
 ### 3.8.0 (Supreme 0.3.0) Breaking Changes Ahead!
 * Completely revamped ASN.1 Tag Handling
   * Properly handle multi-byte tags
