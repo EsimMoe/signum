@@ -10,7 +10,7 @@ serialization, leveraging kotlinx.serialization.
 There's really not much more to it; it's data structures with self-describing names that interop with
 _Indispensable_ data classes such as `SignatureAlgorithm`, `CryptoSignature`,  and `CryptoPublicKey`
 
-**Do check out the full API docs [here](https://a-sit-plus.github.io/signum/)** to ger an overview!
+**Do check out the full API docs [here](https://a-sit-plus.github.io/signum/)** to get an overview!
 
 
 ## Using it in your Projects
