@@ -51,3 +51,11 @@
 :root {
     --md-code-font: "Fantasque";
 }
+
+code,
+pre,
+kbd {
+    font-family: var(--md-code-font-family);
+    font-feature-settings: "kern", "liga";
+    font-size: 16pt;
+}

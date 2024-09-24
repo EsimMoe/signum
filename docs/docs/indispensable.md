@@ -319,11 +319,18 @@ Creating an implicitly tagged UTF-8 String using the ASN.1 builder DSL with a cu
 Asn1.Utf8String("Foo") withImplicitTag (0xCAFEuL withClass TagClass.PRIVATE)
 ```
 
-### ASN.1 Builder DSL
+It is also possible to unset the CONSTRUCTED bit from any ASN.1 structure or Tag by invoking the infix function  `without` as follows:
+```kotlin
+Asn1.Sequence { +Asn1.Int(42) } withImplicitTag (0x5EUL without CONSTRUCTED)
+```
 
-While predefined structures are essential for working with cryptographic material in a PKI context,
-full control is sometimes required. Moreover, constructing nested structures manually is tedious and error-prone.
-We therefore directly support creating complex structures this with an ASN.1 builder DSL, including explicit and implicit tagging:
+### ASN.1 Builder DSL
+So far, custom high-level types and manually constructing low-level types was discussed.
+When actually constructing ASN.1 structures, a far more streamlined and intuitive approach exists.
+Signum's Indispensable module comes with a powerful, expressive ASN.1 builder DSL, including shorthand functions
+covering CONSTRUCTED types and primitives.
+Everything is grouped under a namespace object called `Asn1`. It not only streamlines the creation of complex ASN.1
+structures, but also provides maximum flexibility. The following snippet showcases how it can be used in practice:
 
 ```kotlin
 Asn1.Sequence {
@@ -400,5 +407,9 @@ Application 1337 (9 elem)
         UTCTime 2024-09-16 11:53:51 UTC
 ```
 
-The builder takes any `Asn1Encodable`, so you can also add an `X509Certificate`, or a `CryptoPublicKey` using
-the same concise syntax. Do checkout the [API docs](https://a-sit-plus.github.io/signum/indispensable/at.asitplus.signum.indispensable.asn1.encoding/-asn1/index.html) for a full list of builder shorthands.
+The builder also takes any `Asn1Encodable`, so you can also add an `X509Certificate`, or a `CryptoPublicKey` using
+the same concise syntax. 
+You can, of course, also create primitives, by directly invoking builder functions, like `Asn1.Int()` and use the resulting
+ASN.1 primitive as-is.
+
+Do checkout the [API docs](https://a-sit-plus.github.io/signum/indispensable/at.asitplus.signum.indispensable.asn1.encoding/-asn1/index.html) for a full list of builder functions.
