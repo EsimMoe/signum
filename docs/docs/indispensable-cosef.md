@@ -8,9 +8,12 @@ This [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) libr
 types and utility functions. It comes with predefined JOSE algorithm identifiers and guaranteed correct
 serialization, leveraging kotlinx.serialization.
 There's really not much more to it; it's data structures with self-describing names that interop with
-_Indispensable_ data classes such as `SignatureAlgorithm`, `CryptoSignature`,  and `CryptoPublicKey`
+_Indispensable_ data classes such as `SignatureAlgorithm`, `CryptoSignature`,  and `CryptoPublicKey`.
 
-**Do check out the full API docs [here](https://a-sit-plus.github.io/signum/)** to get an overview!
+Classes like `CborWebToken` come with `serialize()` and `deserialize()` functions, that take care of everything.
+The preconfigured serializer ensuring compliant serialization of all COSE-related data structures is called `coseCompliantSerializer`.
+
+**Do check out the full API docs [here](https://a-sit-plus.github.io/signum/indispensable-cosef/index.html)** to get an overview!
 
 
 ## Using it in your Projects

@@ -34,7 +34,7 @@ types and functionality related to crypto and PKI applications:
 This last bit means that
 you can work with X509 Certificates, public keys, CSRs and arbitrary ASN.1 structures on iOS.
 
-**Do check out the full API docs [here](https://a-sit-plus.github.io/signum/)**!
+**Do check out the full API docs [here](https://a-sit-plus.github.io/signum/indispensable/index.html)**!
 
 ## Using it in your Projects
 
@@ -174,59 +174,156 @@ Recalling the classes in the `asn1` package described before already hints how A
 In effect, it is just a nesting of those classes.
 This works well for parsing and encoding but lacks higher-level semantics (in contrast to `X509CErtificate`, for example).
 
-As mentioned before, 
+As mentioned before, classes like `CryptoPublicKey`, `X509Certificate`, and `ObjectIdentifier` all implement `Asn1Encodable`
+while their companions implement `Asn1Decodable`.
+These interfaces essentially provide a mapping between custom types and low-level TLV structures that can directly be encoded, conforming to DER.
+This also means, a direct serialization of such custom types is valuable for debugging, but not for encoding.
+**Hence, decoding a kotlinx.serialization output of those classes is unsupported.**
 
-encodable/decodable
-encodetoDer
-encodeToTlv
-Asn1Element vs classes with semantics
 
-### Parsing
-
-Parsing and re-encoding an X.509 certificate works as follows:
-
-```kotlin
-val cert = X509Certificate.decodeFromDer(certBytes)
-
-when (val pk = cert.publicKey) {
-    is CryptoPublicKey.EC -> println(
-        "Certificate with serial no. ${
-            cert.tbsCertificate.serialNumber
-        } contains an EC public key using curve ${pk.curve}"
-    )
-
-    is CryptoPublicKey.Rsa -> println(
-        "Certificate with serial no. ${
-            cert.tbsCertificate.serialNumber
-        } contains a ${pk.bits.number} bit RSA public key"
-    )
-}
-
-println("Re-encoding it produces the same bytes? ${cert.encodeToDer() contentEquals certBytes}")
-```
-
-Which produces the following output:
-
-     Certificate with serial no. 19821EDCA68C59CF contains an EC public key using curve SECP_256_R_1
-     Re-encoding it produces the same bytes? true
-
-### Encoding
+### Decoding
+Decoding functions come in two categories: high-level functions, wich are used to map ASN.1 elements to types with enriched semantics
+(such as certificates, public keys, etc.) and low-level ones, operating on the encoded values of TLV structures (i.e. decoding the _V_ in TLV).
 
 #### High-Level
 
+`Asn1Decodable` provides the following functions for decoding data:
+
+* `doDecode()`, which is the only function that needs to be implemented by high-level types implementing `Asn1Encodable`.
+  To provide a concrete example: This function needs to contain all parsing/decoding logic to construct a `CryptoPublicKey` from an `Asn1Sequence`.
+* `verifyTag()` already implements optional tag assertion. The default implementation of  `decodeFromTlv()` (see below) calls this before invoking `doDecode()`.
+* `decodeFromTlv()` takes an ASN.1 element and optional tag to assert, and returns a high-level type. Throws!
+* `decodeFromTlvSafe()` does not throw, but returns a KmmResult, encapsulating the result of `decodeFromTlv()`
+* `decodeFromTlvorNull()` does not throw, but returns null when decoding fails
+* `decodeFromDer()` takes DER-encoded bytes, parses them into an ASN.1 element and calls `decodeFromTlv()`. Throws!
+* `decodeFromDerSafe()` takes DER-encoded bytes. Does not throw, but returns a KmmResult, encapsulating the result of `decodeFromDer()`
+* `decodeFromDerOrNull()` takes DER-encoded bytes. Does not throw, but returns null on decoding errors.
+
+In addition, the companion of `Asn1Element` exposes the following functions:
+
+* `parse()` parses a single ASN.1 element from the input and throws on error, or when additional input is left after parsing.
+  This is helpful, to ensure that any given input contains a single, top-level ASN.1 element.
+* `parseAll()` consumes all input and returns a list of parsed ASN.1 elements. Throws on error.
+* `parseFirst()` comes in two flavours, both of which parse only a single, top-level ASN.1 element from the passed input
+    * Variant 1 takes a `ByteIterator` and advances it until after the first parsed element.
+    * Variant 2 takes a `ByteArray` and returns the first parses alement, as well as the remaining bytes (as `Pair<Asn1Element, ByteArray>`)
+* `decodeFromDerHexString()` strips all whitespace before trying to decode an ASN.1 element from the provided hex string.
+This function throws various exceptions on illegal input. Has the same semantics as `parse()`.
+
+All of these return one or more `Asn1Element`s, which can then be passed to `decodeFromTlv()` if desired.
+Low-level decoding functions deal with the actual decoding of payloads in TLV structures.
+
 #### Low-Level
 
+Some Low-level decoding functions are implemented as extension functions in `Asn1Primitive` for convenience (since CONSTRUCTED elements contain child nodes, but no raw data).
+The base decoding function is called `decode()` and has the following signature:
+```kotlin
+fun <reified T> Asn1Primitive.decode(assertTag: ULong, transform: (content: ByteArray) -> T): T
+```
+An alternative exists, taking a `Tag` instead of an `Ulong`. in both cases a tag to assert and a user-defined transformation function is expected, which operates on
+the content of the ASN.1 primitive. Moreover,  npn-throwing `decodeOrNull` variant is present.
+In addition, the following self-describing shorthands are defined:
+
+* `Asn1Primitive.decodeToBoolean()` throws on error
+* `Asn1Primitive.decodeToBooleanOrNull()` returns `null` on error
+
+* `Asn1Primitive.decodeToInt()` throws on error
+* `Asn1Primitive.decodeToIntOrNull()` returns `null` on error
+
+* `Asn1Primitive.decodeToLong()` throws on error
+* `Asn1Primitive.decodeToLongOrNull()` returns `null` on error
+
+* `Asn1Primitive.decodeToUInt()` throws on error
+* `Asn1Primitive.decodeToUIntOrNull()` returns `null` on error
+
+* `Asn1Primitive.decodeToULong()` throws on error
+* `Asn1Primitive.decodeToULongOrNull()` returns `null` on error
+
+* `Asn1Primitive.decodeToBigInteger()` throws on error
+* `Asn1Primitive.decodeToBigIntegerOrNull()` returns `null` on error
+
+* `Asn1Primitive.decodeToString()` throws on error
+* `Asn1Primitive.decodeToStringOrNull()` returns `null` on error
+
+* `Asn1Primitive.decodeToInstant()` throws on error
+* `Asn1Primitive.decodeToInstantOrNull()` returns `null` on error
+
+* `Asn1Primitive.readNull()` validates that the ASN.1 primitive is indeed an ASN.1 NULL. throws on error
+* `Asn1Primitive.readNullOrNull()` validates that the ASN.1 primitive is indeed an ASN.1 NULL. returns `null` on error
+
+In addition, an `asAsn1String()` conversion function exists that checks an ANS.1 primitive's tag and returns the correct `Asn1String` subtype (UTF-8, NUMERIC, BMP, …).
+Manually working on DER-encoded payloads is also supported through the following extensions (each taking a `ByteArray` as input):
+
+* `Int.decodeFromAsn1ContentBytes()`
+* `UInt.decodeFromAsn1ContentBytes()`
+* `Long.decodeFromAsn1ContentBytes()`
+* `ULong.decodeFromAsn1ContentBytes()`
+* `BigInteger.decodeFromAsn1ContentBytes()`
+* `Boolean.decodeFromAsn1ContentBytes()`
+* `String.decodeFromAsn1ContentBytes()`
+* `Instant.decodeGeneralizedTimeFromAsn1ContentBytes()`
+* `Instant.decodeUtcTimeFromAsn1ContentBytes()`
+
+All of these functions throw an `Asn1Exception` when decoding fails.
+
+
+### Encoding
+Similarly to decoding function, encoding function also come as high-level and low-level ones.
+The general idea is the same: `Asn1Encodable` should be implemented by any custom type that needs encoding to ANS.1,
+while low-level encoding functions create the raw bytes contained in an `Asn1Primtive`.
+
+#### High-Level
+`Asn1Encodable` defines the following functions:
+
+* `encodeToTlv()` is the only function that need to be implemented. It defines how user-defined types are converted to an ASN.1 element. Throws on error.
+* `encodeToTlvOrNull()` is a non-throwing variant of the above, returning `null` on error.
+* `encodeToTlvOrSafe()` encapsulates the encoding result into a `KmmResult`.
+* `encodeToDer()` invokes `encodeToTlv().derEncoded` to produce a `ByteArray` conforming to DER. Throws on error.
+* `encodeToDerOrNull()` is a non-throwing variant of the above, returning `null` on error.
+* `encodeToDerSafe()` encapsulates the encoding result into a `KmmResult`.
+
+`Asn1Element` and its subclasses come with the lazily-evaluated property `derEncoded` which produces a `ByteArray` conforming to DER.
+
+#### Low-Level
+Low-level encoding functions come in two flavours: On the one hand, functions to produce correctly tagged ASN.1 primitives exist.
+These essentially delegate to the other kind of low-level encoding function, producing the content bytes of an `Asn1Primitive`.
+Both kind of encoding functions follow a simple naming convention:
+
+* `encodeToAsn1Primitive()` produces an ASN.1 primitive corresponding to the input.
+This is implemented for `Int`, `UInt`, `Long`, `ULong`,  `BigInteger`, `Boolean`, and `String`
+* `encodeToAsn1ContentBytes()` producing the content bytes of an `Asn1Primitive`.
+This is implemented for `Int`, `UInt`, `Long`, `ULong`,  `BigInteger`, and `Boolean`. As for strings: An UTF-8 string is just its bytes.
+
+In addition, some more specialized encoding functions exist for cases that are not as straight-forward:
+
+* `ByteArray.encodeToAsn1OctetStringPrimitive()` produces an ASN.1 OCTET STRING containing the source bytes.
+* `ByteArray.encodeToAsn1BitStringPrimitive()` produces an ASN.1 BIT STRING, prepending the source bytes with a single `0x00` byte.
+* `ByteArray.encodeToAsn1BitStringContentBytes()` produces a `ByteArray` containing the source bytes, prepended with a single `0x00` byte.
+* `Instant.encodeToAsn1UtcTimePrimitive()` produces an ASN.1 UTC TIME primitive
+* `Instant.encodeToAsn1GeneralizedTimePrimitive()` produces an ASN.1 GENERALIZED TIME primitive
+
 ### Custom Tagging
+This library comes with extensive tagging support and an expressive `Asn1Element.Tag` class.
+ASN.1 knows EXPLICIT and IMPLICIT tags.
+The former is simply a structure with SEQUENCE SEMANTICS and a user-defined CONSTRUCTED, CONTEXT_SPECIFIC tag, while the latter replaces an ASN.1 element's tag.
 
 #### Explicit
+To explicitly tag any number of elements, simply invoke `Asn1.ExplicitlyTagged`, set the desired tag and add the desired elements (see ASN.1 Builder DSL)
+To create an explicit tag (to compare it to a parsed, explicitly tagged element, for example), just pass tag number (and optionally) tag class to `Asn1.ExplicitTag`.
 
 #### Implicit
+Implicit tagging is implemented differently. Any element can be implicitly tagged, after it was constructed, by invoking the
+`withImplicitTag` infix function on it. There's, of course, also an option to override the tag class.
+Creating an implicitly tagged UTF-8 String using the ASN.1 builder DSL with a custom tag class works as follows:
+```kotlin
+Asn1.Utf8String("Foo") withImplicitTag (0xCAFEuL withClass TagClass.PRIVATE)
+```
 
 ### ASN.1 Builder DSL
 
 While predefined structures are essential for working with cryptographic material in a PKI context,
-full control is sometimes required.
-Signum directly support this with an ASN.1 builder DSL, including explicit and implicit tagging:
+full control is sometimes required. Moreover, constructing nested structures manually is tedious and error-prone.
+We therefore directly support creating complex structures this with an ASN.1 builder DSL, including explicit and implicit tagging:
 
 ```kotlin
 Asn1.Sequence {
@@ -303,5 +400,5 @@ Application 1337 (9 elem)
         UTCTime 2024-09-16 11:53:51 UTC
 ```
 
-The builder takes any `Asn1Encodable`, so you can also add an `X509CErtificate`, or a `CryptoPublicKey` using
-the same concise syntax.
+The builder takes any `Asn1Encodable`, so you can also add an `X509Certificate`, or a `CryptoPublicKey` using
+the same concise syntax. Do checkout the [API docs](https://a-sit-plus.github.io/signum/indispensable/at.asitplus.signum.indispensable.asn1.encoding/-asn1/index.html) for a full list of builder shorthands.

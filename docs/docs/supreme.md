@@ -15,7 +15,7 @@ types and functionality related to crypto and PKI applications:
 * Support Attestation on Android and iOS
 
 
-**Do check out the full API docs [here](https://a-sit-plus.github.io/signum/)**!
+**Do check out the full API docs [here](https://a-sit-plus.github.io/signum/supreme/index.html)**!
 
 ## Using it in your Projects
 
