@@ -29,10 +29,15 @@ allprojects {
     }
 }
 
-tasks.register<Copy>("mkDocsPrepare") {
-    dependsOn("dokkaHtmlMultiModule")
+tasks.register<Copy>("copyChangelog") {
     into(rootDir.resolve("docs/docs"))
     from("CHANGELOG.md")
+}
+
+tasks.register<Copy>("mkDocsPrepare") {
+    dependsOn("dokkaHtmlMultiModule")
+    dependsOn("copyChangelog")
+    into(rootDir.resolve("docs/docs/dokka"))
     from("${buildDir}/dokka")
 }
 

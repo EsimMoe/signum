@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Signum Feature Matrix
 
 This page contains feature matrices, providing a detailed summary of what is and isn't supported.

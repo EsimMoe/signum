@@ -52,11 +52,11 @@ println("Looks good? $isValid")
 ```
 
 There really is not much more to it. This pattern works the same on all platforms.
-Details on how to parse cryptographic material can be found in the [section on decoding](../indispensable/#decoding) in
+Details on how to parse cryptographic material can be found in the [section on decoding](indispensable.md#decoding) in
 of the Indispensable module description.
 
 ## Ephemeral Keys
 
 ## Digest Calculation
 The Supreme KMP crypto provider introduces a `digest()` extension function on the `Digest` class.
-For a list of supported algorithms, check out the [feature matrix](../features/#supported-algorithms).
+For a list of supported algorithms, check out the [feature matrix](features.md#supported-algorithms).
