@@ -1,9 +1,5 @@
 # Changelog
 
-## 4.0
-
-### NEXT
-
 ## 3.0
 
 ### 3.8.2 (Supreme 0.3.2)
@@ -13,7 +9,7 @@
 ### 3.8.1 (Supreme 0.3.1)
 * Hotfix for [KT-71650](https://youtrack.jetbrains.com/issue/KT-71650/Invalid-Objective-C-Header-in-XCFramework)
 * Disables export of `Asn1Element.Tag` class to ObjC. Signum remains usable for KMP projects,
-  the Tag class just cannot be directly accessed from Swift and ObjC any more.
+the Tag class just cannot be directly accessed from Swift and ObjC any more.
 
 ### 3.8.0 (Supreme 0.3.0) Breaking Changes Ahead!
 * Completely revamped ASN.1 Tag Handling
@@ -207,7 +203,7 @@
     * Expose `TbsCertificate.issuerAltNames` and `TbsCertificte.subjectAltnames`, which contain (somewhat) parsed
       `AlternativeNames` structures for easy access to `dnsName`. `iPAddress`, etc.
 
-
+ 
 ## 2.0
 
 ### 2.6.0
@@ -253,7 +249,7 @@
 
 ### 2.2.0
 * Dependency Updates
-    * KmmResult 1.5.4
+  * KmmResult 1.5.4
 * Refactor `MultiBaseHelper` to only handle conversion
 * Change `JwsHeader.publicKey` from JsonWebKey to CryptoPublicKey
 * Remove `SignatureValueLength` parameters from JWS & COSE Algorithm Enum class
@@ -276,7 +272,7 @@
     * Throw `IllegalArgumentException` for input-related errors
     * Add `xxxOrNull()` functions for all encoding/decoding/parsing functions
     * Add `xxxSafe()` functions to encapsulate encoding/decoding in `KmmResult`
-    * Return `KmmResult` for conversions between different key representations ( i.e. `CryptoPublicKey`, `CoseKey` and `JsonWebKey`)
+    * Return `KmmResult` for conversions between different key representations ( i.e. `CryptoPublicKey`, `CoseKey` and `JsonWebKey`) 
 
 
 ### 2.0.0
