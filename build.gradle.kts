@@ -17,7 +17,6 @@ apply(plugin = "org.jetbrains.dokka")
 tasks.getByName("dokkaHtmlMultiModule") {
     (this as DokkaMultiModuleTask)
     outputDirectory.set(File("${buildDir}/dokka"))
-    includes.from("README.md")
     moduleName.set("Signum")
     doLast {
         files(
