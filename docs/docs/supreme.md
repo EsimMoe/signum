@@ -28,5 +28,4 @@ implementation("at.asitplus.signum:supreme:$supreme_version")
 
 ## Key Design Principles
 The Supreme KMP crypto provider works differently than JCA. It uses a `Provider` to manage private key material and create `Signer` instances,
-and a `Verifier`, that is instantiated on a `AignaturAlgorithm`, taking a `CryptoPublicKey`.
-The interface is the same on all platforms, however instantiating a Provider and protecting key material differs.
+and a `Verifier`, that is instantiated on a `SignatureAlgorithm`, taking a `CryptoPublicKey` as parameter.
