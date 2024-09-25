@@ -78,4 +78,4 @@ nav:
       - Examples:
           - index.md
   - Feature Matrix: features.md
-  - API Docs: https://a-sit-plus.github.io/signum/index.html
+  - API Docs: dokka/index.html
